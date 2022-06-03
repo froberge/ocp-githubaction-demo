@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/Users/froberge/.dotnet/store/|arch|/|tfm|",
-      "/Users/froberge/.nuget/packages"
-    ]
-  }
-}
