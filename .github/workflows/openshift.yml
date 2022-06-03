@@ -110,8 +110,6 @@ jobs:
 
     - name: Check out repository
       uses: actions/checkout@v3
-      with:
-        path: webapp
 
     - name: Determine app name
       if: env.APP_NAME == ''
@@ -135,7 +133,7 @@ jobs:
         # Or, perform a source-to-image build using https://github.com/redhat-actions/s2i-build
         # Otherwise, point this to your Dockerfile/Containerfile relative to the repository root.
         dockerfiles: |
-          ./Dockerfile
+          ./webapp/Dockerfile
 
     # https://github.com/redhat-actions/push-to-registry#readme
     - name: Push to registry
