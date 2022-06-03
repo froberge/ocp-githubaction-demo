@@ -47,7 +47,7 @@ env:
   # Registries such as GHCR, Quay.io, and Docker Hub are supported.
   IMAGE_REGISTRY: https://quay.io/user/froberge
   IMAGE_REGISTRY_USER: froberge+github
-  IMAGE_REGISTRY_PASSWORD: ${{ secret.registry_usertoken }}
+  IMAGE_REGISTRY_PASSWORD: ${{ secrets.REGISTRY_TOKEN }}
 
   # 🖊️ EDIT to specify custom tags for the container image, or default tags will be generated below.
   IMAGE_TAGS: ""
