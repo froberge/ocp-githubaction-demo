@@ -34,4 +34,4 @@ RUN dotnet publish -c Release -o out
 FROM registry.access.redhat.com/ubi8/dotnet-60-runtime
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "aspnetcoreapp.dll"]
+ENTRYPOINT ["dotnet", "webapp.dll"]
