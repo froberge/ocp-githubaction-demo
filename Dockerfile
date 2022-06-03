@@ -1,19 +1,24 @@
 # Get image from microsoft
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
 WORKDIR /app 
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj .
+# # Copy csproj and restore as distinct layers
+# COPY *.csproj .
+# RUN dotnet restore
+
+# Copy eveything
+COPY . ./
+# Restore as distinct layers
 RUN dotnet restore
 
-# Copy and publish the apps 
+# build and publish a release 
 COPY . .
-RUN dotnet publish -c release -o /app --no-restore
+RUN dotnet publish -c Release -o out
 
 # Build runtime image using the redhat UBI .NET image
 FROM registry.access.redhat.com/ubi8/dotnet-50-runtime
 WORKDIR /app
-COPY --from=build /app  /app
-ENTRYPOINT ["dotnet", "app.dll"]
-
+COPY --from=build-env /app/out  .
+#ENTRYPOINT ["dotnet", "app.dll"]
+ENTRYPOINT ["dotnet", "DotNet.Docker.dll"]
 LABEL maintainer="froberge@redhat.com"
