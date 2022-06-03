@@ -6,11 +6,6 @@ WORKDIR /app
 COPY *.csproj .
 RUN dotnet restore
 
-# Copy eveything
-COPY . ./
-# Restore as distinct layers
-RUN dotnet restore
-
 # copy and publish app and libraries
 COPY . .
 RUN dotnet publish -c release -o /app --no-restore
