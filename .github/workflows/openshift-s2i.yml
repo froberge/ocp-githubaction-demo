@@ -127,7 +127,7 @@ jobs:
       uses: redhat-actions/s2i-build@v2
       with:
         path_context: '/webapp'
-        builder_iamge: 'registry.access.redhat.com/ubi8/dotnet-60-runtime'
+        builder_image: 'registry.access.redhat.com/ubi8/dotnet-60-runtime'
         image: ${{ env.IMAGE_NAME }}
         tags: ${{ env.TAGS }}
 
