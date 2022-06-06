@@ -36,7 +36,7 @@ env:
   OPENSHIFT_NAMESPACE: froberge-dev
 
   # 🖊️ EDIT to set a name for your OpenShift app, or a default one will be generated below.
-  APP_NAME: "dotNet-demo-s2i"
+  APP_NAME: "ocp-githubaction-demo-s2i"
 
   # 🖊️ EDIT with the port your application should be accessible on.
   # If the container image exposes *exactly one* port, this can be left blank.
@@ -128,8 +128,8 @@ jobs:
       with:
         path_context: '/webapp'
         builder_image: 'registry.access.redhat.com/ubi8/dotnet-60-runtime'
-        image: ${{ env.IMAGE_NAME }}
-        tags: ${{ env.TAGS }}
+        image: ${{ env.APP_NAME }}
+        tags: ${{ env.IMAGE_TAGS }}
 
     # https://github.com/redhat-actions/push-to-registry#readme
     - name: Push to registry
