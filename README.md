@@ -29,7 +29,7 @@ The turotial is divided in different section:
 For those who don't have and access to an OpenShift cluster we can use the free [Red Hat OpenShift Sandbox](https://developers.redhat.com/products/openshift/overview). 
 ![sanbox](docs/images/redhat-sandbox.png). If you don't have one I encourage you to use it. 
 
-:eyeglasses: This is what I'll be using for this demo. 
+:raising_hand: This is what we will you for this demo. 
 
 
 ###### Setup github secret
@@ -55,12 +55,15 @@ We need to create 3 secrets in the repository for the workflow to use.
             ```
 * Enter another repository secret
     * Enter the name: `OPENSHIFT_TOKEN`
-    * Enter the value:
+    * Enter the value:  :warning: __This is a temporary token__
         * Enter the token retrieved with the OpenShift CLI.
             ```
             oc whoami --show-token
             ```
-        :warning: this is a temporary token, refer to doc for a more permanent solutions.
+    :zap:Create a service account in orther to have a more permenent solutions. [Follow this link](https://github.com/redhat-actions/oc-login/wiki/Using-a-Service-Account-for-GitHub-Actions) to know how. Use that token instead.
+
+    :clipboard: Make sure you have the permission on the user.
+    >oc policy add-role-to-user edit system:serviceaccount:[NAMESPACE]:[SERVICE_ACCOUNT]
 
    
  ![all-secret](docs/images/all-secrets.png)
@@ -85,6 +88,19 @@ We need to create 3 secrets in the repository for the workflow to use.
 * IMAGE_REGISTRY_PASSWORD: replace by a secret value ${{ secrets.IMAGE_REGISTRY_PASSWORD }} ```
 
 * Click `Start commit`
+
+
+
+* The pipeline should start executing and you can check it executing.
+![pipeline-execute](docs/images/pipelie-execute.png)
+
+:eyeglasses: You can access the application by clicking on the link highlighted above.
+
+You should now see your apps in OpenShift
+![OCP-TOPOLOGY](docs/images/openshift-topology.png)
+
+---
+
 
 
 
