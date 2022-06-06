@@ -10,10 +10,9 @@ Welcome to the Introduction to using GitHub Actions with OpenShift !!
 
 In this demo we will walk you through how use `GitHub Actions` to push code to `Red Hat OpenShift`. We will look at bacis concepts and how to create a simple workflows as well as customize a GitHub Actions Workflows using different component from the [Red Hat GitHub Action Page](https://github.com/redhat-actions).
 
-The turotial is divided in different section:
-
-* [Deploying to OpenShift using OpenSift GitHub Action starter flow]()
-* [Deploying to OpenShidt using GitHub Actions using custom flow]()
+:clipboard: Currently there is 2 working demo branch each with their workflows.
+* working demo with starter flow
+* working demo with s2i.
 
 
 ### Prerequisites
@@ -100,7 +99,3 @@ You should now see your apps in OpenShift
 ![OCP-TOPOLOGY](docs/images/openshift-topology.png)
 
 ---
-
-
-
-
