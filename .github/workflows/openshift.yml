@@ -128,8 +128,9 @@ jobs:
     - name: Checkout Deployment repo
       id: deploymentrepo-checkout
       uses: actions/checkout@v3
-      with: https://github.com/froberge/simple-dotNet-deployment/dotNet-service-deploy/app
-      path: ./deployment
+      with:
+        repository: https://github.com/froberge/simple-dotNet-deployment/dotNet-service-deploy/app
+        path: ./deployment
 
     - name: Push Project B
       id: push-to-deployment-repo
