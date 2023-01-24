@@ -126,10 +126,15 @@ jobs:
 
 
     - name: Checkout Deployment repo
-      id: deploymentRepo checkout
+      id: deploymentrepo-checkout
       uses: actions/checkout@v3
       with: https://github.com/froberge/simple-dotNet-deployment/dotNet-service-deploy/app
+      path: ./deployment
+
+    - name: Push Project B
+      id: push-to-deployment-repo
       run: |
+        cd ./deployment
         sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:v.0.0.62/g' overlays/dev/deployment.yaml
         git commit -am "change the image in the deployment file"
         git push
