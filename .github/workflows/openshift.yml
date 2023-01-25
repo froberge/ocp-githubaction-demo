@@ -65,7 +65,7 @@ jobs:
     - name: Determine image tags
       if: env.IMAGE_TAGS == ''
       run: |
-        echo "IMAGE_TAGS=latest ${GITHUB_SHA::12}" | tee -a $GITHUB_ENV
+        echo "IMAGE_TAGS=${GITHUB_SHA::12}" | tee -a $GITHUB_ENV
 
     # https://github.com/redhat-actions/buildah-build#readme
     - name: Build from Dockerfile
@@ -105,7 +105,7 @@ jobs:
       id: push-to-deployment-repo
       run: |
         cd ./deployment/dotNet-service-deploy/app/overlays/dev
-        sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:${{GITHUB_SHA::12}}/g' deployment.yaml
+        sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:${{ steps.build-image.outputs.tags }}/g' deployment.yaml
         git config --global user.email "froberge@redhat.com"
         git config --global user.name "froberge"
         git commit -am "change the image in the deployment file"
