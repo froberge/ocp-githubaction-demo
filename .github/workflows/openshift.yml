@@ -124,13 +124,13 @@ jobs:
       id: deploymentrepo-checkout
       uses: actions/checkout@v3
       with:
-        repository: https://github.com/froberge/simple-dotNet-deployment/dotNet-service-deploy/app
+        repository: https://github.com/froberge/simple-dotNet-deployment
         path: ./deployment
 
     - name: Push Project B
       id: push-to-deployment-repo
       run: |
-        cd ./deployment
-        sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:v.0.0.62/g' overlays/dev/deployment.yaml
+        cd ./deployment/dotNet-service-deploy/app/overlays/dev
+        sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:v.0.0.62/g' deployment.yaml
         git commit -am "change the image in the deployment file"
         git push
