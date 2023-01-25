@@ -31,6 +31,7 @@ env:
   IMAGE_REGISTRY: quay.io/froberge
   IMAGE_REGISTRY_USER: froberge+githubactions
   IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
+  GH_TOKEN: ${{ secrets.GH_ACTION }}
 
   # 🖊️ EDIT to specify custom tags for the container image, or default tags will be generated below.
   IMAGE_TAGS: ""
@@ -53,34 +54,6 @@ jobs:
       SELECTOR: ${{ steps.deploy-and-expose.outputs.selector }}
 
     steps:
-    - name: Check for required secrets
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const secrets = {
-              IMAGE_REGISTRY_PASSWORD: `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`,
-            };
-
-          const missingSecrets = Object.entries(secrets).filter(([ name, value ]) => {
-            if (value.length === 0) {
-              core.error(`Secret "${name}" is not set`);
-              return true;
-            }
-            core.info(`✔️ Secret "${name}" is set`);
-            return false;
-          });
-
-          if (missingSecrets.length > 0) {
-            core.setFailed(`❌ At least one required secret is not set in the repository. \n` +
-              "You can add it using:\n" +
-              "GitHub UI: https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository \n" +
-              "GitHub CLI: https://cli.github.com/manual/gh_secret_set \n" +
-              "Also, refer to https://github.com/redhat-actions/oc-login#getting-started-with-the-action-or-see-example");
-          }
-          else {
-            core.info(`✅ All the required secrets are set`);
-          }
-
     - name: Check out repository
       uses: actions/checkout@v3
 
@@ -125,6 +98,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: froberge/simple-dotNet-deployment
+        token: ${{ env.GH_TOKEN }}
         path: ./deployment
 
     - name: Push Project B
