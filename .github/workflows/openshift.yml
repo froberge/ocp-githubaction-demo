@@ -105,7 +105,7 @@ jobs:
       id: push-to-deployment-repo
       run: |
         cd ./deployment/dotNet-service-deploy/app/overlays/dev
-        sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:${ GITHUB_SHA::12 }/g' deployment.yaml
+        sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:${{GITHUB_SHA::12}}/g' deployment.yaml
         git config --global user.email "froberge@redhat.com"
         git config --global user.name "froberge"
         git commit -am "change the image in the deployment file"
