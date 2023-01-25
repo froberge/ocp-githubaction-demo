@@ -101,12 +101,46 @@ jobs:
         token: ${{ env.GH_TOKEN }}
         path: ./deployment
 
-    - name: Push Project B
-      id: push-to-deployment-repo
+    - name: Patch Dev Repo
+      id: patch-dev-repo
       run: |
         cd ./deployment/dotNet-service-deploy/app/overlays/dev
         sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:${{ steps.build-image.outputs.tags }}/g' deployment.yaml
         git config --global user.email "froberge@redhat.com"
         git config --global user.name "froberge"
-        git commit -am "change the image in the deployment file"
+        git commit -am "change the image in the deployment file in the github action"
         git push
+
+    - name: Patch Prod Repo
+      id: patch-prod-repo
+      run: |
+        git config --global user.email "froberge@redhat.com"
+        git config --global user.name "froberge"
+        git checkout -b ${{ steps.build-image.outputs.tags }}
+        cd ./deployment/dotNet-service-deploy/app/overlays/prod
+        sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:${{ steps.build-image.outputs.tags }}/g' deployment.yaml
+        git add -A .
+        git commit -am "Build image ${{ steps.build-image.outputs.tags }}. Updating ready for Prod"
+        git push origin 
+        git push origin HEAD:${{ steps.build-image.outputs.tags }}   
+
+    # - name: Create PR
+    #   id: patch-prod-repo
+    #   run: |
+    #     git config --global user.email "froberge@redhat.com"
+    #     git config --global user.name "froberge"
+    #     git checkout -b ${{ steps.build-image.outputs.tags }}
+    #     cd ./deployment/dotNet-service-deploy/app/overlays/prod
+    #     sed -i 's/ocp-githubaction-demo:[a-zA-Z].*/ocp-githubaction-demo:${{ steps.build-image.outputs.tags }}/g' deployment.yaml
+    #     git add -A .
+    #     git commit -am "Build image ${{ steps.build-image.outputs.tags }}. Updating ready for Prod"
+    #     git push origin 
+    #     git push origin HEAD:${{ steps.build-image.outputs.tags }}   
+    # https://github.com/redhat-actions/push-to-registry#readme
+    - name: Create Pull Request
+      id: create-pr
+      uses: peter-evans/create-pull-request@v4
+      with:
+        token: ${{ env.GH_TOKEN }}
+        path: ./deployment
+        commit-message: "Update prod with new image"
